@@ -28,6 +28,13 @@ We can see that there is are absolutely no WASI imports:
   (export "fallible_func" (func $fallible_func.command_export))
 ```
 
+Here's the baseline binary size:
+
+```sh
+ls -lah target/wasm32-wasi/release/*.wasm
+# -rwxr-xr-x  1 geoff  staff   459B 22 Mar 13:42 target/wasm32-wasi/release/wasi_import_repro.wasm
+```
+
 **Scenario 2**: A `printf` call in c code that should be unreferenced.
 
 ```sh
@@ -44,4 +51,11 @@ We can see that the `fd_*` family get pulled along even though they shouldn't ha
   (import "wasi_snapshot_preview1" "fd_write" (func $__imported_wasi_snapshot_preview1_fd_write (;3;) (type 5)))
   (export "memory" (memory 0))
   (export "fallible_func" (func $fallible_func.command_export))
+```
+
+We can also see that this has a major impact on the size of the binary:
+
+```sh
+ls -lah target/wasm32-wasi/release/*.wasm
+# -rwxr-xr-x  1 geoff  staff   2.4K 22 Mar 13:34 target/wasm32-wasi/release/wasi_import_repro.wasm
 ```
