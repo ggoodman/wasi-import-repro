@@ -1,0 +1,6 @@
+{
+  "rust-analyzer.check.targets": ["wasm32-wasi"],
+  "files.associations": {
+    "stdlib.h": "c"
+  }
+}
