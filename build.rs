@@ -6,7 +6,7 @@ use std::{
 
 // A lot of this logic is lifted from https://github.com/bytecodealliance/javy/blob/61616e1507d2bf896f46dc8d72687273438b58b2/crates/quickjs-wasm-sys/build.rs#L18
 
-const WASI_SDK_VERSION_MAJOR: usize = 20;
+const WASI_SDK_VERSION_MAJOR: usize = 21;
 const WASI_SDK_VERSION_MINOR: usize = 0;
 
 fn download_wasi_sdk() -> PathBuf {
@@ -157,6 +157,7 @@ fn main() {
             .header(out_dir.join("repro.h").display().to_string())
             .allowlist_function("Fallible_func")
             .allowlist_function("Print")
+            .use_core()
             .clang_arg("-fvisibility=default")
             // The input header we would like to generate
             // bindings for.
